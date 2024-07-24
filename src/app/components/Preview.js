@@ -1,20 +1,19 @@
 "use client";
 import { Button, Card, Text } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
-import { Tweet as TweetPreview } from "react-tweet";
+import { useMemo, useState } from "react";
 import { TwitchClip } from "react-twitch-embed";
 import { TwitchPlayerNonInteractive } from "react-twitch-embed";
 import Image from "next/image";
 import { Badge } from "@chakra-ui/react";
 import { Tooltip } from "@chakra-ui/react";
-import { memo } from "react";
+import { InstagramEmbed, TikTokEmbed } from "react-social-media-embed";
+import { XEmbed } from "react-social-media-embed";
 
 const twitterRgxp =
   /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
 
 const PreviewMap = {
   Default: function (link, { title, description, image, site_name }) {
-    console.log("TITLE", title);
     return (
       <div className="relative flex flex-col gap-2">
         <div className="relative">
@@ -104,13 +103,14 @@ const PreviewMap = {
       ></iframe>
     );
   },
+  Tiktok: function (link, infos) {
+    return <TikTokEmbed url={link} width={325} style={{ height: "580px" }} />;
+  },
   Twitter: function (link, infos) {
-    const parts = link.split("/");
-    const id = parts[parts.indexOf("status") + 1];
-
-    if (!id) return PreviewMap.Default(link, infos);
-
-    return <TweetPreview id={id} />;
+    return <XEmbed url={link} width={325} />;
+  },
+  Instagram: function (link, infos) {
+    return <InstagramEmbed url={link} width={325} captioned={false} />;
   },
 };
 

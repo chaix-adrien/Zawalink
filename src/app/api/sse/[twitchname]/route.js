@@ -8,6 +8,8 @@ const urlRgxp =
 function getType(host) {
   if (["x.com", "twitter.com"].includes(host)) return "Twitter";
   if (["youtube.com", "youtu.be"].includes(host)) return "Youtube";
+  if (["instagram.com"].includes(host)) return "Instagram";
+  if (["tiktok.com"].includes(host)) return "Tiktok";
   if (["twitch.tv"].includes(host)) return "Twitch";
   return "Default";
 }
@@ -53,7 +55,6 @@ export async function GET(req, { params: { twitchname } }) {
             if (type === "Default") {
               try {
                 const rep = await parser(url);
-                console.log(`🦊 - urls.map - rep:`, rep);
                 extra = { ...rep.meta, ...rep.og };
               } catch (e) {
                 console.log(`🦊 - issue while fetching extra metadata.`);
