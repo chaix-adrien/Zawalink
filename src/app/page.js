@@ -38,12 +38,14 @@ export default function Home() {
           return setStatus("error");
         }
 
-        const ll = link.toLowerCase()
+        const ll = link.toLowerCase();
         const existing = _links.find((ex) => ex.link.toLowerCase() === ll);
 
         if (existing) {
           _links = _links.map((l) =>
-            l.link === existing.link ? { ...l, msgs: [...l.msgs, { user, msg }] } : l
+            l.link === existing.link
+              ? { ...l, msgs: [...l.msgs, { user, msg }] }
+              : l
           );
         } else {
           _links = [
@@ -79,7 +81,7 @@ export default function Home() {
             <Input
               placeholder="Enter a twitch name"
               type="text"
-              disabled={status === "loading" }
+              disabled={status === "loading"}
               value={twitchName}
               onKeyDown={(e) => e.key === "Enter" && connect()}
               onChange={(e) => {
@@ -90,7 +92,9 @@ export default function Home() {
             <Button
               disabled={status === "loading" || !twitchName.length}
               colorScheme={status === "error" ? "red" : "purple"}
-              onClick={status !== "loading" && twitchName.length ? connect : () => null}
+              onClick={
+                status !== "loading" && twitchName.length ? connect : () => null
+              }
             >
               {status === "loading" ? <Spinner /> : "Connect"}
             </Button>
