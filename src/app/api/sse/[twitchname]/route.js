@@ -10,7 +10,7 @@ function getType(host) {
   if (["youtube.com", "youtu.be"].includes(host)) return "Youtube";
   if (["instagram.com"].includes(host)) return "Instagram";
   if (["tiktok.com"].includes(host)) return "Tiktok";
-  if (["twitch.tv"].includes(host)) return "Twitch";
+  if (["twitch.tv", "clips.twitch.tv"].includes(host)) return "Twitch";
   return "Default";
 }
 

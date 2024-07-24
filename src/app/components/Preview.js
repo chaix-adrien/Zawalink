@@ -47,8 +47,12 @@ const PreviewMap = {
   Twitch: function (link) {
     const parts = link.split("/");
     // "https://www.twitch.tv/emmodem/clip/ArtsyFunWatercressCharlieBitMe-wn3OiODgwN0ARgED":
-    if (link.includes("/clip/")) {
-      const clip = parts[parts.indexOf("clip") + 1];
+    if (link.includes("/clip/") || link.includes("/clips.twitch.tv/")) {
+      const idx =
+        parts.indexOf("clip") !== -1
+          ? parts.indexOf("clip")
+          : parts.indexOf("clips.twitch.tv");
+      const clip = parts[idx + 1];
 
       return (
         <TwitchClip
