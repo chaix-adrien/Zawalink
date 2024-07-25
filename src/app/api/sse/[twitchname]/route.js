@@ -6,7 +6,7 @@ const urlRgxp =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gm;
 
 function getType(host) {
-  if (["x.com", "twitter.com"].includes(host)) return "Twitter";
+  if (["x.com", "twitter.com", "vxtwitter.com"].includes(host)) return "Twitter";
   if (["youtube.com", "youtu.be"].includes(host)) return "Youtube";
   if (["instagram.com"].includes(host)) return "Instagram";
   if (["tiktok.com"].includes(host)) return "Tiktok";
