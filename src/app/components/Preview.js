@@ -108,13 +108,13 @@ const PreviewMap = {
     );
   },
   Tiktok: function (link, infos) {
-    return <TikTokEmbed url={link} width={325} style={{ height: "580px" }} />;
+    return <TikTokEmbed url={link} width="100%" style={{ height: "580px" }} />;
   },
   Twitter: function (link, infos) {
-    return <XEmbed url={link} width={325} />;
+    return <XEmbed url={link} width="100%" />;
   },
   Instagram: function (link, infos) {
-    return <InstagramEmbed url={link} width={325} captioned={false} />;
+    return <InstagramEmbed url={link} width="100%" captioned={false} />;
   },
 };
 
