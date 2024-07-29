@@ -38,6 +38,7 @@ export async function GET(req, { params: { twitchname } }) {
         return;
       }
       const txt = msg.messageText;
+      notifier.update({ data: { __ready: true } });
       console.log(`🦊 - client.on - txt:`, txt)
       const urls = txt.match(urlRgxp);
       if (urls) {
