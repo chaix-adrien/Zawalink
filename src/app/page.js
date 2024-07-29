@@ -13,8 +13,6 @@ export default function Home() {
   const [status, setStatus] = useState(null);
   const [links, setLinks] = useState([]);
 
-  console.log(`🦊 - Home - links:`, links);
-
   async function disconnect() {
     eventSource.close();
     setStatus(null);
@@ -22,7 +20,6 @@ export default function Home() {
   }
 
   async function connect() {
-    console.log(`🦊 - connect`);
     try {
       setStatus("loading");
       const eventSource = new EventSource(`/api/sse/${twitchName}`);
@@ -68,7 +65,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 pt-12 w-full relative gap-8">
+    <main className="flex min-h-screen flex-col items-center justify-between p-4 pt-12 w-full relative gap-8">
       <Text
         fontSize="8xl"
         className="text-purple-100 font-bold zawafont tracking-wide	"
@@ -76,8 +73,8 @@ export default function Home() {
         ZAWALINK
       </Text>
       {status !== "ready" ? (
-        <div className="flex flex-col gap-4 ">
-          <div className="flex min-w-96 w-1/3 bg-white border border-white rounded">
+        <div className="flex flex-col gap-4 w-full items-center">
+          <div className="flex w-full max-w-screen-sm  bg-white border border-white rounded">
             <Input
               placeholder="Enter a twitch name"
               type="text"

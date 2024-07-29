@@ -119,7 +119,6 @@ const PreviewMap = {
 };
 
 export default function Preview({ link, infos }) {
-  console.log(`🦊 - Preview - infos:`, infos.msgs.length);
   const [hide, setHide] = useState(false);
   const Component = useMemo(() => {
     return PreviewMap[infos.type](link, infos);
@@ -140,15 +139,15 @@ export default function Preview({ link, infos }) {
           >
             <div className="flex flex-col gap-2">
               {infos.msgs.map(({ user, msg }, idx) => (
-                <Card
-                  className="flex !flex-row gap-2 !bg-purple-50"
+                <div
+                  className={`flex !flex-row gap-2 ${msg ? "!bg-purple-50 shadow" : ""}`}
                   key={`${user}-${idx}`}
                 >
                   <Badge className="h-min !px-2 py-0.5 !rounded-md !bg-purple-300 relative -bottom-0.5">
                     {user}
                   </Badge>
                   <Text className="relative -top-0.5	">{msg}</Text>
-                </Card>
+                </div>
               ))}
             </div>
             {Component}
