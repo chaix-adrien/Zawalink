@@ -37,7 +37,7 @@ export async function GET(req, { params: { twitchname } }) {
       ) {
         return;
       }
-      const txt = "test https://www.twitch.tv/avamind" || msg.messageText;
+      const txt = msg.messageText;
       const urls = txt.match(urlRgxp);
       if (urls) {
         await Promise.all(
