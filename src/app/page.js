@@ -25,7 +25,6 @@ export default function Home() {
       const eventSource = new EventSource(`/api/sse/${twitchName}`);
       var _links = [];
       eventSource.onmessage = async (event) => {
-        console.log(`🦊 - eventSource.onmessage= - event:`, event)
         const { link, user, msg, __ready, __error, ...extra } = JSON.parse(
           event.data
         );
