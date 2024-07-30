@@ -39,7 +39,7 @@ export async function GET(req, { params: { twitchname } }) {
       }
       const txt = msg.messageText;
       notifier.update({ data: { __ready: true } });
-      console.log(`🦊 - client.on - txt:`, txt)
+      console.log(`🦊 - client.on - txt:`, txt);
       const urls = txt.match(urlRgxp);
       if (urls) {
         await Promise.all(
@@ -97,6 +97,7 @@ export async function GET(req, { params: { twitchname } }) {
       "Content-Type": "text/event-stream",
       Connection: "keep-alive",
       "Cache-Control": "no-cache, no-transform",
+      "X-Accel-Buffering": "no",
     },
   });
 }
