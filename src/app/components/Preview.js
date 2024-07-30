@@ -103,7 +103,7 @@ const PreviewMap = {
         type="text/html"
         width="100%"
         height="200"
-        src={`http://www.youtube.com/embed/${id}?mute=1`}
+        src={`https://www.youtube.com/embed/${id}?mute=1`}
       ></iframe>
     );
   },
