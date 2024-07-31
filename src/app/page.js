@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input, Spinner } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
@@ -13,22 +13,34 @@ export default function Home() {
   const [status, setStatus] = useState(null);
   const [links, setLinks] = useState([]);
 
+  useEffect(() => {
+    const query = new URLSearchParams(window.location.search).get("twitchname");
+    if (query && query !== twitchName) {
+      setTwitchName(query);
+      connect(query);
+    }
+  }, []);
+
   async function disconnect() {
     eventSource.close();
     setStatus(null);
     setEventSource(null);
+    const newUrl = window.location.origin;
+    window.history.pushState({ path: newUrl }, "", newUrl);
   }
 
-  async function connect() {
+  async function connect(name) {
     try {
       setStatus("loading");
-      const eventSource = new EventSource(`/api/sse/${twitchName}`);
+      const eventSource = new EventSource(`/api/sse/${name}`);
       var _links = [];
       eventSource.onmessage = async (event) => {
         const { link, user, msg, __ready, __error, ...extra } = JSON.parse(
           event.data
         );
         if (__ready) {
+          const newUrl = `${window.location.origin}/?twitchname=${name}`;
+          window.history.pushState({ path: newUrl }, "", newUrl);
           return setStatus("ready");
         }
         if (__error) {
@@ -74,28 +86,49 @@ export default function Home() {
       </Text>
       {status !== "ready" ? (
         <div className="flex flex-col gap-4 w-full items-center">
-          <div className="flex w-full max-w-screen-sm  bg-white border border-white rounded">
-            <Input
-              placeholder="Enter a twitch name"
-              type="text"
-              disabled={status === "loading"}
-              value={twitchName}
-              onKeyDown={(e) => e.key === "Enter" && connect()}
-              onChange={(e) => {
-                setStatus(null);
-                setTwitchName(e.target.value);
-              }}
-            />
-            <Button
-              disabled={status === "loading" || !twitchName.length}
-              colorScheme={status === "error" ? "red" : "purple"}
-              onClick={
-                status !== "loading" && twitchName.length ? connect : () => null
-              }
-            >
-              {status === "loading" ? <Spinner /> : "Connect"}
-            </Button>
-          </div>
+          <form
+            className="flex w-full max-w-screen-sm"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (status !== "loading" && twitchName.length)
+                connect(twitchName);
+            }}
+          >
+            <div className="flex w-full  bg-white border border-white rounded">
+              <fieldset className="flex flex-grow">
+                <Input
+                  id="twitchname"
+                  name="twitchname"
+                  autocomplete="twitchname"
+                  placeholder="Chaine twitch à scanner..."
+                  type="text"
+                  required
+                  disabled={status === "loading"}
+                  value={twitchName}
+                  // onKeyDown={(e) => e.key === "Enter" && connect(twitchName)}
+                  onChange={(e) => {
+                    setStatus(null);
+                    setTwitchName(e.target.value);
+                  }}
+                />
+                <datalist id="twitchname">
+                  <option value="Black" />
+                  <option value="Red" />
+                  <option value="Green" />
+                  <option value="Blue" />
+                  <option value="White" />
+                </datalist>
+              </fieldset>
+              <Button
+                type="submit"
+                value="Submit"
+                disabled={status === "loading" || !twitchName.length}
+                colorScheme={status === "error" ? "red" : "purple"}
+              >
+                {status === "loading" ? <Spinner /> : "Connect"}
+              </Button>
+            </div>
+          </form>
         </div>
       ) : (
         <div>
